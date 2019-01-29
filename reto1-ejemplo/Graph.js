@@ -42,7 +42,7 @@ class Graph
             }
             this.nodes[i].setNodes(n,this.nodes);
         }
-        console.log(this.search(this.nodes[0],this.nodes[6]));
+        this.paintPath(this.search(this.nodes[0],this.nodes[6]));
     }
 
     selectANode(x,y)
@@ -66,6 +66,15 @@ class Graph
         for(let i=0;i<this.nodes.length;i++)
         {
             this.nodes[i].draw();
+        }
+    }
+
+    paintPath(path)
+    {
+        for(let i=0;i<path.length-1;i++)
+        {
+            path[i].paint(path[i+1]);
+            path[i+1].paint(path[i]);
         }
     }
 
@@ -166,5 +175,17 @@ class NodeCircle
     equals(node)
     {
         return this.index===node.index;
+    }
+
+    paint(bro)
+    {
+        for(let i=0;i<this.sides.length;i++)
+        {
+            if(this.sides[i].b.equals(bro))
+            {
+                this.sides[i].colorPath();
+                break;
+            }
+        }
     }
 }
