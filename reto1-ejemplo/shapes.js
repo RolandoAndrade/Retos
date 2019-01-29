@@ -13,10 +13,17 @@ class Rectangle
     draw()
     {
         ctx.fillStyle=this.color;
+        ctx.fillRect(this.x,this.y,this.w,this.h);
         ctx.borderColor=this.borderColor;
         ctx.lineWidth = this.lineWidth;
         ctx.strokeStyle = this.borderColor;
         ctx.stroke();
+
+    }
+    move(x,y)
+    {
+        this.x=x;
+        this.y=y;
     }
 }
 
@@ -42,5 +49,16 @@ class Circle
         ctx.lineWidth = this.lineWidth;
         ctx.strokeStyle = this.borderColor;
         ctx.stroke();
+    }
+
+    move(x,y)
+    {
+        this.x=x;
+        this.y=y;
+    }
+
+    contains(x,y)
+    {
+        return this.x-this.radius<=x&&this.x+this.radius>=x&&this.y+this.radius>=y&&this.y-this.radius<=y;
     }
 }
