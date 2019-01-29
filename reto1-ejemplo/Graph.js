@@ -29,6 +29,8 @@ class Graph
     {
         this.nodes=[];
         for(let i=0;i<matrix.length;i++)
+            this.nodes.push(new NodeCircle(i));
+        for(let i=0;i<matrix.length;i++)
         {
             let n=[];
             for(let j=0;j<matrix.length;j++)
@@ -38,9 +40,7 @@ class Graph
                     n.push(j);
                 }
             }
-            let node = new NodeCircle(i);
-            node.setNodes(n);
-            this.nodes.push(node);
+            this.nodes[i].setNodes(n,this.nodes);
         }
     }
 
@@ -60,6 +60,10 @@ class Graph
     {
         for(let i=0;i<this.nodes.length;i++)
         {
+            this.nodes[i].drawSides();
+        }
+        for(let i=0;i<this.nodes.length;i++)
+        {
             this.nodes[i].draw();
         }
     }
@@ -67,20 +71,44 @@ class Graph
 
 const NUMBER_OF_CITIES=13;
 
+class Side
+{
+    constructor(a,b)
+    {
+        this.a=a;
+        this.b=b;
+    }
+
+    draw()
+    {
+        ctx.beginPath();
+        ctx.moveTo(this.a.body.x,this.a.body.y);
+        ctx.lineTo(this.b.body.x,this.b.body.y);
+        ctx.strokeStyle = "#fff";
+        ctx.stroke();
+    }
+}
+
+
 class NodeCircle
 {
     constructor(index)
     {
+        this.index=index;
         this.tag=new TagNode(index,100*Math.cos(2*Math.PI*index/NUMBER_OF_CITIES)+
             200,100*Math.sin(2*Math.PI*index/NUMBER_OF_CITIES)+205,15);
         this.body=new Circle(100*Math.cos(2*Math.PI*index/NUMBER_OF_CITIES)+
             200,100*Math.sin(2*Math.PI*index/NUMBER_OF_CITIES)+200,20,"#c392ff");
+        this.sides=[];
     }
 
 
-    setNodes(nodes)
+    setNodes(nodes, all)
     {
-        this.nodes=nodes;
+        for(let i=0;i<nodes.length;i++)
+        {
+            this.sides.push(new Side(all[this.index],all[nodes[i]]))
+        }
     }
 
     contains(x,y)
@@ -88,6 +116,13 @@ class NodeCircle
         return this.body.contains(x,y);
     }
 
+    drawSides()
+    {
+        for(let i=0;i<this.sides.length;i++)
+        {
+            this.sides[i].draw();
+        }
+    }
     draw()
     {
         this.body.draw();
