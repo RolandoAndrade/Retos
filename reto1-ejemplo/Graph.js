@@ -42,6 +42,7 @@ class Graph
             }
             this.nodes[i].setNodes(n,this.nodes);
         }
+        console.log(this.search(this.nodes[0],this.nodes[6]));
     }
 
     selectANode(x,y)
@@ -67,6 +68,26 @@ class Graph
             this.nodes[i].draw();
         }
     }
+
+    search(startNode, endNode)
+    {
+        if(startNode.equals(endNode))
+            return [endNode];
+        let min=[];
+        for(let i=0;i<startNode.sides.length;i++)
+        {
+            let ax=startNode.sides[i].b;
+            if(!ax.visited)
+            {
+                startNode.visited=true;
+                let s=[startNode].concat(this.search(this.nodes[ax.index],endNode));
+                startNode.visited=false;
+                if(s.length>1&&(min.length===0||min.length>s.length))
+                    min=s;
+            }
+        }
+        return min;
+    }
 }
 
 const NUMBER_OF_CITIES=13;
@@ -77,6 +98,7 @@ class Side
     {
         this.a=a;
         this.b=b;
+        this.color="#fff";
     }
 
     draw()
@@ -84,8 +106,13 @@ class Side
         ctx.beginPath();
         ctx.moveTo(this.a.body.x,this.a.body.y);
         ctx.lineTo(this.b.body.x,this.b.body.y);
-        ctx.strokeStyle = "#fff";
+        ctx.strokeStyle = this.color;
         ctx.stroke();
+    }
+
+    colorPath()
+    {
+        this.color="#ff405f";
     }
 }
 
@@ -100,6 +127,7 @@ class NodeCircle
         this.body=new Circle(100*Math.cos(2*Math.PI*index/NUMBER_OF_CITIES)+
             200,100*Math.sin(2*Math.PI*index/NUMBER_OF_CITIES)+200,20,"#c392ff");
         this.sides=[];
+        this.visited=false;
     }
 
 
@@ -133,5 +161,10 @@ class NodeCircle
     {
         this.body.move(x,y);
         this.tag.move(x,y+5);
+    }
+
+    equals(node)
+    {
+        return this.index===node.index;
     }
 }
