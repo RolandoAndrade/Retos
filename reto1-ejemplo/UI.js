@@ -1,9 +1,23 @@
+let cities=[[0,1,0,0,0,0,0,0,0,0,1,0,0],
+            [1,0,1,0,0,0,0,0,0,0,0,1,0],
+            [0,1,0,1,0,0,0,0,0,0,0,0,0],
+            [0,0,1,0,1,1,1,0,0,0,0,0,0],
+            [0,0,0,1,0,0,0,0,0,0,0,0,0],
+            [0,0,0,1,0,0,1,1,1,0,0,0,0],
+            [0,0,0,1,0,1,0,0,1,1,0,0,0],
+            [0,0,0,0,0,1,0,0,0,1,0,0,0],
+            [0,0,0,0,0,1,1,0,0,1,0,0,0],
+            [0,0,0,0,0,0,1,1,1,0,1,0,0],
+            [1,0,0,0,0,0,0,0,0,1,0,0,1],
+            [0,1,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,1,0,0]];
+
 class Board
 {
     constructor()
     {
         Board.background=new Rectangle(0,0,400,400,"#9c79ff");
-        Board.nodes=[new NodeCircle(0), new NodeCircle(1)];
+        Board.graph=new Graph(cities);
         Board.selection=undefined;
         Board.rect=canvas.getBoundingClientRect();
         canvas.onmousedown = function (event) {Board.mouseDown(event)};
@@ -16,15 +30,13 @@ class Board
 
         let x=(event.clientX - Board.rect.left);
         let y=(event.clientY - Board.rect.top);
-        if(this.nodes)
+        try
         {
-            for(let i=0;i<Board.nodes.length;i++)
-            {
-                if(Board.nodes[i].contains(x,y))
-                {
-                   Board.selection=Board.nodes[i];
-                }
-            }
+            Board.selection=Board.graph.selectANode(x,y);
+        }
+        catch (e)
+        {
+
         }
     }
 
@@ -48,7 +60,6 @@ class Board
     static draw()
     {
         Board.background.draw();
-        for(let i=0;i<Board.nodes.length;i++)
-            Board.nodes[i].draw();
+        Board.graph.draw();
     }
 }

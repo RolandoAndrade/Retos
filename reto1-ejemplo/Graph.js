@@ -23,13 +23,64 @@ class TagNode
     }
 
 }
+class Graph
+{
+    constructor(matrix)
+    {
+        this.nodes=[];
+        for(let i=0;i<matrix.length;i++)
+        {
+            let n=[];
+            for(let j=0;j<matrix.length;j++)
+            {
+                if(matrix[i][j]===1)
+                {
+                    n.push(j);
+                }
+            }
+            let node = new NodeCircle(i);
+            node.setNodes(n);
+            this.nodes.push(node);
+        }
+    }
+
+    selectANode(x,y)
+    {
+        for(let i=0;i<this.nodes.length;i++)
+        {
+            if(this.nodes[i].contains(x,y))
+            {
+                return this.nodes[i];
+            }
+        }
+        return undefined;
+    }
+
+    draw()
+    {
+        for(let i=0;i<this.nodes.length;i++)
+        {
+            this.nodes[i].draw();
+        }
+    }
+}
+
+const NUMBER_OF_CITIES=13;
 
 class NodeCircle
 {
     constructor(index)
     {
-        this.tag=new TagNode(index,50*index+50,50*index+55,15);
-        this.body=new Circle(50*index+50,50*index+50,20,"#c392ff");
+        this.tag=new TagNode(index,100*Math.cos(2*Math.PI*index/NUMBER_OF_CITIES)+
+            200,100*Math.sin(2*Math.PI*index/NUMBER_OF_CITIES)+205,15);
+        this.body=new Circle(100*Math.cos(2*Math.PI*index/NUMBER_OF_CITIES)+
+            200,100*Math.sin(2*Math.PI*index/NUMBER_OF_CITIES)+200,20,"#c392ff");
+    }
+
+
+    setNodes(nodes)
+    {
+        this.nodes=nodes;
     }
 
     contains(x,y)
