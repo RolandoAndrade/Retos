@@ -28,21 +28,41 @@ class Graph
     constructor(matrix)
     {
         this.nodes=[];
+        this.matrix=matrix;
         for(let i=0;i<matrix.length;i++)
             this.nodes.push(new NodeCircle(i));
-        for(let i=0;i<matrix.length;i++)
+        this.restartPath();
+    }
+
+    findPath(startNode, endNode)
+    {
+        try
+        {
+            this.restartPath();
+            this.paintPath(this.search(this.nodes[startNode],this.nodes[endNode]));
+            Board.draw();
+        }
+        catch (e)
+        {
+            alert("Datos incorrectos");
+        }
+
+    }
+
+    restartPath()
+    {
+        for(let i=0;i<this.matrix.length;i++)
         {
             let n=[];
-            for(let j=0;j<matrix.length;j++)
+            for(let j=0;j<this.matrix.length;j++)
             {
-                if(matrix[i][j]===1)
+                if(this.matrix[i][j]===1)
                 {
                     n.push(j);
                 }
             }
             this.nodes[i].setNodes(n,this.nodes);
         }
-        this.paintPath(this.search(this.nodes[0],this.nodes[6]));
     }
 
     selectANode(x,y)
@@ -93,6 +113,8 @@ class Graph
                 startNode.visited=false;
                 if(s.length>1&&(min.length===0||min.length>s.length))
                     min=s;
+                if(min.length===2)
+                    return min;
             }
         }
         return min;
@@ -142,6 +164,7 @@ class NodeCircle
 
     setNodes(nodes, all)
     {
+        this.sides=[];
         for(let i=0;i<nodes.length;i++)
         {
             this.sides.push(new Side(all[this.index],all[nodes[i]]))

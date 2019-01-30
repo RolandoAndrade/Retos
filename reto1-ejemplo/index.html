@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <title>Estructuras de datos y control de versiones</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .canvas{
-            
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <canvas class="canvas" id="canvas" width="400" height="400"></canvas>
+    <div class="data-container">
+        <input type="text" class="box" placeholder="Nodo de inicio" id="startNode">
+        <input type="text" class="box" placeholder="Nodo final" id="endNode">
+        <div class="button" onclick="findPath()">Camino</div>
+    </div>
     <script src="shapes.js"></script>
     <script src="Graph.js"></script>
     <script src="UI.js"></script>

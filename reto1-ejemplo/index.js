@@ -1,7 +1,12 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 let board=new Board();
-for(let i=0;i<5;i++)
+Board.draw();
+
+
+function findPath()
 {
-    Board.draw();
+    let startNode = document.getElementById("startNode").value;
+    let endNode = document.getElementById("endNode").value;
+    Board.graph.findPath(startNode,endNode);
 }

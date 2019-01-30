@@ -1,0 +1,47 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, serif;
+}
+body
+{
+    text-align: center;
+}
+.data-container
+{
+    background: #9c79ff;
+    width: 400px;
+    margin: -5px auto;
+    text-align: center;
+}
+
+.box
+{
+    color: #fff;
+    background: transparent;
+    border: #b29edb solid;
+    width: 150px;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+.box::placeholder
+{
+    color: #b29edb;
+}
+
+.button
+{
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 5px;
+    font-size: 15px;
+    color: white;
+    background: #b29edb;
+    transition: 0.5s all;
+}
+.button:hover
+{
+    background: #db62c2;
+}
