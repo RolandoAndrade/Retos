@@ -15,18 +15,3 @@ let board=[];
 new Board();
 
 
-
-document.onkeydown = function (event)
-{
-    let b=[];
-    for (let i = 0; i < 20; i++)
-    {
-        let r=[];
-        for (let j = 0; j < 20; j++)
-        {
-            r.push(board[i][j].print());
-        }
-        b.push(r);
-    }
-    console.table(b);
-};

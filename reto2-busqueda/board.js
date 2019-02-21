@@ -1,3 +1,28 @@
+let matrix=[
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,2,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,0,1],
+    [1,0,1,1,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
+    [1,0,1,0,0,1,0,0,0,1,0,1,1,1,1,1,0,1,0,1],
+    [1,0,1,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1],
+    [1,0,1,3,1,0,0,0,1,1,0,1,1,1,1,1,0,1,0,1],
+    [1,0,1,1,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1],
+    [1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,1,0,1],
+    [1,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,1],
+    [1,0,1,1,1,1,1,0,0,0,1,1,0,0,1,0,0,1,0,1],
+    [1,0,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,1],
+    [1,0,1,1,1,0,1,1,1,1,1,1,0,0,0,1,0,1,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1],
+    [1,0,1,1,0,1,1,0,1,1,1,1,1,1,1,0,0,0,0,1],
+    [1,0,1,1,0,1,1,0,0,0,0,1,1,1,1,0,0,1,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+];
+
+
+
 class Board
 {
     constructor()
@@ -7,21 +32,31 @@ class Board
         this.board=[];
         this.isDrawing=false;
         this.isDeleting=false;
-        this.initBoard();
+
+        this.initBoard(matrix);
         let me=this;
         canvas.onmousedown = function (event) {Board.mouseDown(event, me)};
-        canvas.onmousemove = function (event) {Board.mouseMove(event, me)}
+        canvas.onmousemove = function (event) {Board.mouseMove(event, me)};
         canvas.onmouseup = function (event) {Board.mouseUp(event, me)};
+        document.onkeydown = function (event) {Board.keyDown(event, me)};
     }
 
-    initBoard()
+    initBoard(matrix)
     {
-        for(let i=0;i<20;i++)
+        for(let i=0;i<DIMENSIONS;i++)
         {
             let row=[];
-            for(let j=0;j<20;j++)
+            for(let j=0;j<DIMENSIONS;j++)
             {
-                row.push(new Node(i,j));
+                if (matrix)
+                {
+                    row.push(Fabric.createNode(matrix[j][i],i,j));
+                }
+                else
+                {
+                    row.push(new Node(i,j));
+                }
+
                 row[j].draw();
             }
             this.board.push(row);
@@ -58,11 +93,34 @@ class Board
         }
     }
 
-    static mouseUp(event,board)
+    static mouseUp(event, board)
     {
         board.isDrawing=false;
         board.isDeleting=false;
     }
+
+
+    static print()
+    {
+        for(let i=0;i<20;i++)
+        {
+            let s="[";
+            for(let j=0;j<20;j++)
+            {
+                s+=board.board[i][j].print()+",";
+            }
+            s+="]";
+            console.log(s);
+        }
+    }
+    static keyDown(event,board)
+    {
+
+
+
+
+    }
+
 
 
 }
