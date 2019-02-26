@@ -100,24 +100,81 @@ class Board
     }
 
 
-    static print()
+    print()
     {
         for(let i=0;i<20;i++)
         {
-            let s="[";
+            let s="";
             for(let j=0;j<20;j++)
             {
-                s+=board.board[i][j].print()+",";
+                s+=this.board[j][i].getNumber()+" ";
             }
-            s+="]";
             console.log(s);
         }
     }
     static keyDown(event,board)
     {
+        console.log(board.findPath());
+        board.print();
+    }
+
+    mark(i,j,k)
+    {
+        try {
+            if(!this.board[i+1][j].isAWall()&&this.board[i+1][j].isEmpty())
+                this.board[i+1][j].number=k;
+            if(this.board[i+1][j].isEnd())
+                return true;} catch (e) {}
+        try {if(!this.board[i-1][j].isAWall()&&this.board[i-1][j].isEmpty())
+                this.board[i-1][j].number=k;
+            if(this.board[i-1][j].isEnd())
+                return true;} catch (e) {}
+        try {if(!this.board[i][j+1].isAWall()&&this.board[i][j+1].isEmpty())
+            this.board[i][j+1].number=k;
+            if(this.board[i][j+1].isEnd())
+                return true;} catch (e) {}
+        try {if(!this.board[i][j-1].isAWall()&&this.board[i][j-1].isEmpty())
+            this.board[i][j-1].number=k;
+            if(this.board[i][j-1].isEnd())
+                return true;} catch (e) {}
+        return false;
+    }
+
+    paint(i,j,x)
+    {
 
 
+        if(x>0)
+        {
+            this.board[i][j].paint();
+            x--;
+            try {if(this.board[i+1][j].number===x) {return this.paint(i+1,j,x);}} catch (e) {console.log(e)}
+            try {if(this.board[i-1][j].number===x) {return this.paint(i-1,j,x);}} catch (e) {console.log(e)}
+            try {if(this.board[i][j+1].number===x) {return this.paint(i,j+1,x);}} catch (e) {console.log(e)}
+            try {if(this.board[i][j-1].number===x) {return this.paint(i,j-1,x);}} catch (e) {console.log(e)}
+        }
+        return 1;
 
+    }
+
+    findPath()
+    {
+        for(let x=0;x<this.board.length*this.board.length;x++)
+            for(let i=0;i<this.board.length;i++)
+            {
+                for(let j=0;j<this.board.length;j++)
+                {
+                    if(this.board[j][i].getNumber()===x)
+                    {
+                        if(this.mark(j,i,x+1))
+                        {
+                            this.paint(j,i,x);
+                            return x;
+                        }
+
+                    }
+                }
+            }
 
     }
 
